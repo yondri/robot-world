@@ -1,0 +1,4 @@
+# basic config
+postgres_username: yondri
+postgres_password: 'IypzDe3567BC5KD6'
+postgres_host: '127.0.0.1'

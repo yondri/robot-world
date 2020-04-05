@@ -31,7 +31,7 @@ Note: The URL =>  https://hooks.slack.com/services/T02SZ8DPK/BL0LEQ72A/NPNK1HLyA
 The factory stock is different from the store stock. Every 30 minutes the guard robot beside of watching our defects will transfer the stock from factory stock to store stock in order to be sold (it will transfer only the non-defective cars stock). 
 
 
-##Robot buyer, order model and store stock
+## Robot buyer, order model and store stock
 
 Once the cars are ready to be sold, the cars are taken to another place, far from the factory and the factory warehouse. Here is where the Robot buyer comes on the scene, this process will buy a random number of cars always < 10 units each X amount of time (it can buy 10 cars/min top). When the robot buyer purchases a car an order will be placed. The robot only can buy 1 car at a time, so each order will have only 1 item. The stock will be decreased when the order is placed. Well, there’s a detail here, the stock we decreased is the store stock. If when the robot buyer wants to purchase a car model and there’s no stock, it won’t be able to buy it and that event will have to be logged.
 
@@ -54,6 +54,27 @@ Making the robot execs happy would be a good idea, it would be great to pull the
 + We use Rails and Postgres. The Postgres DB is mandatory for this challenge, but as this challenge doesn't have front-end, if you feel comfortable using plain ruby it's fine (if you decide to use a framework the only allowed is Rails). 
 
 
+## Development process
+
+###### Getting started
+
+I am using ruby 2.6.3 because I had it already installed and rails 5.2.4 because I didn't see any useful new feature for this project on rails 6.
+
+Every robot is going to be a rake task we can run from a terminal, since the challenge does not require front-end.
+
+Since we just have 10 car models I am going to preload them using seeds.rb file. In a real life example we could have a crud interface for car models management.
+
+
+
+###### Challenge testing
+
+Before testing the project, we need to clone this project, setup postgres credentials on config/database.yml and config/application.yml files, and then execute:
+
+```
+bundle install
+rake db:create
+rake db:seeds
+```
 
 
 

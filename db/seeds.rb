@@ -1,0 +1,11 @@
+# car models load
+CarModel.create(name: 'Corolla', brand: 'Toyota')
+CarModel.create(name: 'Beetle', brand: 'Volkswagen')
+CarModel.create(name: 'Model T', brand: 'Ford')
+CarModel.create(name: 'Silverado', brand: 'Chevrolet')
+CarModel.create(name: 'Civic', brand: 'Honda')
+CarModel.create(name: 'Clio', brand: 'Renault')
+CarModel.create(name: 'Cherokee', brand: 'Jeep')
+CarModel.create(name: 'Gallardo', brand: 'Lamborghini')
+CarModel.create(name: 'Lancer', brand: 'Mitsubishi')
+CarModel.create(name: 'Model 3', brand: 'Tesla')
