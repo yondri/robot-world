@@ -76,7 +76,11 @@ rake db:create
 rake db:seeds
 ```
 
+Then, we can run specs:
 
+```
+rspec spec/
+```
 
 
 
