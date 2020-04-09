@@ -64,11 +64,13 @@ Every robot is going to be a rake task we can run from a terminal, since the cha
 
 Since we just have 10 car models I am going to preload them using seeds.rb file. In a real life example we could have a crud interface for car models management.
 
+Car parts are going to be defective with a probability configured in application.yml file (defective_probability).
+
 
 
 ###### Challenge testing
 
-Before testing the project, we need to clone this project, setup postgres credentials on config/database.yml and config/application.yml files, and then execute:
+Before testing the project, we need to clone this project, create config/application.yml from config/application.yml.example, setup postgres credentials on config/database.yml and config/application.yml files, and then execute:
 
 ```
 bundle install

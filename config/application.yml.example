@@ -1,0 +1,6 @@
+# basic config
+postgres_username: 'username'
+postgres_password: 'password'
+postgres_host: '127.0.0.1'
+defective_probability: '0.1'
+cars_built_per_minute: '10'
