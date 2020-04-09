@@ -20,6 +20,8 @@ module Cars
       @car.completed!
       @car.in_factory!
 
+      send_guard_notification if @car.has_any_defect?
+
       set_as_valid!
     end
 
@@ -42,6 +44,20 @@ module Cars
 
     def part_is_defective
       rand() < ENV['defective_probability'].to_d
+    end
+
+    def send_guard_notification
+      if ENV['send_guard_notifications'] == 'true'
+        text = "Robot guard 7500 ha encontrado un auto defectuoso :bangbang:"
+        text += "\n*Modelo:* #{car.car_model.brand} - #{car.car_model.name} :car:"
+        text += "\n*Partes defectuosas:* #{car.defective_parts}"
+        uri = URI('https://hooks.slack.com/services/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')
+        request = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+        request.body = {text: text}.to_json
+        result = Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.request(request)
+        end
+      end
     end
   end
 end

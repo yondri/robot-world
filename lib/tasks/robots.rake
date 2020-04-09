@@ -1,13 +1,30 @@
 namespace :robots do
-  desc "run robot builder"
+  desc "run builder robot"
   task builder: :environment do
   	puts 'Press Ctrl + C to quit'
   	clear_cars_history if Car.any? && !Car.last.created_at.today?
   	start_building
   end
 
-  desc "TODO"
+  desc "run guard robot"
   task guard: :environment do
+  	puts 'Press Ctrl + C to quit'
+  	loop do
+	  	Car.in_factory.each do |car|
+	  		puts "Processing: #{car.car_model.brand} - #{car.car_model.name}"
+  			puts "-- has defects: #{car.has_any_defect?}"
+	  		if car.has_any_defect?
+	  			# using defective status to avoid checking the same cars again next time
+	  			car.defective!
+	  			puts "-- set as defective"
+	  		else
+	  			car.in_store!
+	  			puts "-- taken to store"
+	  		end
+	  		puts '----------------------------'
+	  	end
+	  	sleep 1800
+	  end
   end
 
   desc "TODO"
@@ -30,8 +47,9 @@ namespace :robots do
   			else
   				puts "It was a problem building a car: #{service.errors}"
   			end
+  			puts '----------------------------'
   		end
-  		sleep 10
+  		sleep 60
   	end
   end
 

@@ -7,7 +7,7 @@ class Car < ApplicationRecord
 
   # enumerators
   enum assembly_step: [:basic, :electronics, :details, :completed]
-  enum status: [:initial, :in_factory, :in_store, :sold]
+  enum status: [:initial, :in_factory, :in_store, :sold, :defective]
 
   # validations
   validates_presence_of :car_model, :year, :price, :cost_price, :assembly_step, :status
