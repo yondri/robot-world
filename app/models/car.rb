@@ -1,6 +1,7 @@
 class Car < ApplicationRecord
 	# relations
 	has_one :parts_defect, dependent: :destroy
+  has_one :order, dependent: :destroy
   belongs_to :car_model
 
   accepts_nested_attributes_for :parts_defect, :allow_destroy => true

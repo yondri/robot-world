@@ -9,26 +9,13 @@ namespace :robots do
   desc "run guard robot"
   task guard: :environment do
   	puts 'Press Ctrl + C to quit'
-  	loop do
-	  	Car.in_factory.each do |car|
-	  		puts "Processing: #{car.car_model.brand} - #{car.car_model.name}"
-  			puts "-- has defects: #{car.has_any_defect?}"
-	  		if car.has_any_defect?
-	  			# using defective status to avoid checking the same cars again next time
-	  			car.defective!
-	  			puts "-- set as defective"
-	  		else
-	  			car.in_store!
-	  			puts "-- taken to store"
-	  		end
-	  		puts '----------------------------'
-	  	end
-	  	sleep 1800
-	  end
+  	start_guarding
   end
 
-  desc "TODO"
+  desc "run buyer robot"
   task buyer: :environment do
+  	puts 'Press Ctrl + C to quit'
+  	start_buying
   end
 
   def start_building
@@ -51,6 +38,52 @@ namespace :robots do
   		end
   		sleep 60
   	end
+  end
+
+  def start_buying
+  	loop do
+  		quantity = rand(1..10) * ENV['buyer_robot_time_interval'].to_i
+  		puts "buying #{quantity} cars every #{ENV['buyer_robot_time_interval'].to_i} minutes..."
+
+  		quantity.times do
+  			car_model = CarModel.all.sample
+  			puts "want to buy #{car_model.brand} - #{car_model.name}"
+
+  			order = car_model.orders.create
+  			car = Car.in_store.find_by(car_model: car_model)
+
+  			if car.present?
+  				puts "there is stock in store, processing order"
+  				order.update(car: car, total: car.price, cost_price: car.cost_price)
+  				order.completed!
+  				puts "created order ##{order.id}"
+  			else
+  				puts "there is NOT stock in store, creating failed order"
+  				order.incomplete!
+  			end
+  			puts '----------------------------'
+  		end
+  		sleep ENV['buyer_robot_time_interval'].to_i * 60
+  	end
+  end
+
+  def start_guarding
+  	loop do
+	  	Car.in_factory.each do |car|
+	  		puts "Processing: #{car.car_model.brand} - #{car.car_model.name}"
+  			puts "-- has defects: #{car.has_any_defect?}"
+	  		if car.has_any_defect?
+	  			# using defective status to avoid checking the same cars again next time
+	  			car.defective!
+	  			puts "-- set as defective"
+	  		else
+	  			car.in_store!
+	  			puts "-- taken to store"
+	  		end
+	  		puts '----------------------------'
+	  	end
+	  	sleep 1800
+	  end
   end
 
   def clear_cars_history

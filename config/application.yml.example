@@ -5,3 +5,4 @@ postgres_host: '127.0.0.1'
 defective_probability: '0.1'
 cars_built_per_minute: '10'
 send_guard_notifications: 'true'
+buyer_robot_time_interval: '1' # in minutes
