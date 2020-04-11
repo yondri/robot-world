@@ -84,9 +84,31 @@ Then, we can run specs:
 rspec spec/
 ```
 
+And run every robot in a separate terminal:
+
+```
+rake robots:builder
+rake robots:guard
+rake robots:buyer
+```
+
+###### First problem
+
+In order to solve the lag between factory stock and store stock, besides the stock management guard robot performs every 30 minutes, I am going to add a new process every time we create a sucessful order to check the remaining stock for the sold model, if we just have 1 car in store stock then we are checking the factory stock and taking the available cars to the store. This way, we make sure we never miss a sale if there's stock ready to be sold.
 
 
+###### The other problem
+
+To solve this problem I am creating a rake task that receives the order id and the required car model as parameters, checks the model car stock and updates the order and the cars stock if possible. The existing order will be updated to returned status because I think this info will be useful in the future, and a new order will be created for the requested car model.
 
 
+```
+rake orders:exchange[order_id,car_model]
+```
 
+For example:
+
+```
+rake orders:exchange[72,"Corolla"]
+```
 

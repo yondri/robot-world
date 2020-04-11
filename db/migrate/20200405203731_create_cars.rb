@@ -6,7 +6,7 @@ class CreateCars < ActiveRecord::Migration[5.2]
       t.integer :status, default: 0
       t.decimal :price
       t.decimal :cost_price
-      t.references :car_model, foreign_key: true
+      t.references :car_model, foreign_key: true, on_delete: :cascade
 
       t.timestamps
     end

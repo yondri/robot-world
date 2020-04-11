@@ -7,7 +7,7 @@ class CreatePartsDefects < ActiveRecord::Migration[5.2]
       t.boolean :computer
       t.boolean :engine
       t.boolean :seats
-      t.references :car, foreign_key: true
+      t.references :car, foreign_key: true, on_delete: :cascade
 
       t.timestamps
     end

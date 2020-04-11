@@ -55,7 +55,11 @@ namespace :robots do
   			if car.present?
   				puts "there is stock in store, processing order"
   				order.update(car: car, total: car.price, cost_price: car.cost_price)
+  				car.sold!
   				order.completed!
+
+  				check_sold_car_stock(order)
+
   				puts "created order ##{order.id}"
   			else
   				puts "there is NOT stock in store, creating failed order"
@@ -89,5 +93,16 @@ namespace :robots do
   def clear_cars_history
   	puts "new day, deleting existing cars..."
   	Car.destroy_all
+  end
+
+  def check_sold_car_stock(order)
+  	if Car.in_store.where(car_model: order.car_model).count < 2
+  		puts "** stock for #{order.car_model.name} is too low, checking factory stock..."
+  		cars = Car.in_factory.where(car_model: order.car_model)
+  		if cars.any?
+  			puts "** taking #{cars.count} cars from factory to store"
+  			cars.each {|car| car.in_store!}
+  		end
+  	end
   end
 end
