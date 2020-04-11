@@ -1,3 +1,5 @@
+require 'net/http'
+
 module Cars
   class CreateCar < BaseService
     attr_accessor :car
@@ -48,13 +50,16 @@ module Cars
 
     def send_guard_notification
       if ENV['send_guard_notifications'] == 'true'
-        text = "Robot guard 7500 ha encontrado un auto defectuoso :bangbang:"
+        text = "Robot guard ha encontrado un auto defectuoso :bangbang:"
         text += "\n*Modelo:* #{car.car_model.brand} - #{car.car_model.name} :car:"
         text += "\n*Partes defectuosas:* #{car.defective_parts}"
+
+        puts "sending slack notification: #{text}"
+
         uri = URI('https://hooks.slack.com/services/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')
-        request = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+        request = ::Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
         request.body = {text: text}.to_json
-        result = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        result = ::Net::HTTP.start(uri.hostname, uri.port) do |http|
           http.request(request)
         end
       end
