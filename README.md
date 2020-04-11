@@ -112,3 +112,8 @@ For example:
 rake orders:exchange[72,"Corolla"]
 ```
 
+Finally, and to keep robot execs happy, there's a task to show daily stats as requested:
+
+```
+rake orders:stats
+```

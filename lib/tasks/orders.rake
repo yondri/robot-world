@@ -26,4 +26,17 @@ namespace :orders do
       puts "Invalid order id"
     end
   end
+
+  desc "show daily stats"
+  task :stats, [:order_id, :car_model] => [:environment] do |task, args|
+    puts "general stats..."
+
+    daily_revenue = Order.completed.sum(&:total)
+    total_cars_sold = Order.completed.count
+    average_order_total = daily_revenue / total_cars_sold
+
+    puts "daily revenue: #{daily_revenue.round(2)}"
+    puts "total cars sold: #{total_cars_sold}"
+    puts "average order total: #{average_order_total.round(2)}"
+  end
 end
